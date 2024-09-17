@@ -1,6 +1,10 @@
-import { StyleSheet, TextInput, Text, View } from "react-native";
+import { StyleSheet, TextInput, Text, View, TouchableOpacity } from "react-native";
 
-export function Login() {
+export function Login({ navigation }) {
+  const enter=()=>{
+    navigation.navigate('Home');
+  }
+  
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Login</Text>
@@ -13,6 +17,10 @@ export function Login() {
         <Text style={{ textAlign: "center", marginBottom: 3 }}>Senha</Text>
         <TextInput style={styles.input} placeholder="Senha" />
       </View>
+
+      <TouchableOpacity style={styles.button} onPress={() => enter()}>
+        <Text style={{color: "#fff"}}>Entrar</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -21,21 +29,23 @@ const styles = StyleSheet.create({
   container: {
     shadowColor: '#e3e3e3',
     shadowOffset: {
-        height: 10,
-        width: 10
+      height: 7,
+      width: 0
     },
-    padding: 20
+    shadowRadius: 15,
+    padding: 20,
+    borderRadius: 15
   },
-    header: {
+  header: {
     fontSize: 23,
     textAlign: 'center',
-    marginBottom:40
+    marginBottom: 40
   },
   input: {
     borderWidth: 2,
     borderRadius: 15,
     borderColor: "#4f4f4f",
-    padding: 5,
+    padding: 10,
     color: "#8f8f8f",
   },
   inputFocus: {
@@ -48,4 +58,12 @@ const styles = StyleSheet.create({
   inputGroup: {
     marginBottom: 10,
   },
+  button: {
+    width: "50%",
+    alignSelf: "center",
+    borderRadius: 10,
+    backgroundColor: "#20a0e6",
+    alignItems: "center",
+    padding: 10,
+  }
 });
