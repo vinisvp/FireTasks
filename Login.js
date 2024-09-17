@@ -9,8 +9,8 @@ export function Login({ navigation }) {
     <View style={styles.container}>
       <Text style={styles.header}>Login</Text>
       <View style={styles.inputGroup}>
-        <Text style={{ textAlign: "center", marginBottom: 3 }}>E-Mail</Text>
-        <TextInput style={styles.input} placeholder="E-Mail" />
+        <Text style={{ textAlign: "center", marginBottom: 3 }}>Usuário</Text>
+        <TextInput style={styles.input} placeholder="E-Mail ou nome de usuário" />
       </View>
 
       <View style={styles.inputGroup}>
@@ -19,7 +19,7 @@ export function Login({ navigation }) {
       </View>
 
       <TouchableOpacity style={styles.button} onPress={() => enter()}>
-        <Text style={{color: "#fff"}}>Entrar</Text>
+        <Text style={{color: "#fff"}}>Acessar</Text>
       </TouchableOpacity>
     </View>
   );
@@ -27,6 +27,7 @@ export function Login({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: "#fff",
     shadowColor: '#e3e3e3',
     shadowOffset: {
       height: 7,
@@ -34,6 +35,7 @@ const styles = StyleSheet.create({
     },
     shadowRadius: 15,
     padding: 20,
+    margin: 35,
     borderRadius: 15
   },
   header: {
