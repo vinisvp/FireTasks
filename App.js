@@ -1,4 +1,5 @@
-import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { StatusBar } from 'react-native-web';
 import { Login } from './Login';
 import { Home } from './Home';
 import { NavigationContainer } from '@react-navigation/native';
