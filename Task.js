@@ -1,23 +1,28 @@
 import { StyleSheet, Text, View, TextInput } from "react-native";
-import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
-import { TouchableOpacity } from "react-native-web";
+import { Picker } from "@react-native-picker/picker";
+import { useState } from "react";
 
 export function Task({ navigation }) {
-
-    const openTimePicker = () => {
-        DateTimePickerAndroid.open({
-            mode: 'date',
-            is24Hour: true
-        })
-    }
+    const [month, setMonth] = useState(0);
 
     return (
         <View style={styles.container}>
             <Text style={{ textAlign: "center", marginBottom: 3 }}>Descrição da Tarefa</Text>
             <TextInput style={styles.input} placeholder="Descreva essa tarefa" />
-            <TouchableOpacity onPress={openTimePicker()}>
-                <Text>AAA</Text>
-            </TouchableOpacity>
+            <TextInput
+            />
+            <Picker
+                selectedValue={month}
+                onValueChange={(itemValue) => setMonth(itemValue)}
+            >
+                <Picker.Item label="Janeiro" value={0}/>
+                <Picker.Item label="Fevereiro" value={1}/>
+            </Picker>
+            <TextInput
+            />
+            <Text>
+                {month}
+            </Text>
         </View>
     );
 }
