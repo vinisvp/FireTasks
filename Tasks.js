@@ -17,6 +17,10 @@ export function Tasks({navigation}) {
     }
   ]
 
+  const newTask=()=>{
+    navigation.navigate('Task');
+  }
+
   return (
     <View style={styles.container}>
       <ScrollView style={{ padding: 10 }}>
@@ -49,6 +53,11 @@ export function Tasks({navigation}) {
           )}
         />
       </ScrollView>
+      <TouchableOpacity style={styles.add}
+                        onPress={newTask}
+      >
+        <Text style={{alignSelf: "center", color: "#fff", fontSize: 30}}>+</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -68,5 +77,13 @@ const styles = StyleSheet.create({
     padding: 20,
     marginBottom: 15,
     borderRadius: 15
+  },
+  add : {
+    backgroundColor: "#20a0e6",
+    width: "20%",
+    borderRadius: 90,
+    padding: 10,
+    alignContent:"center",
+    alignSelf:"center"
   }
 });

@@ -1,5 +1,4 @@
 import { StyleSheet } from 'react-native';
-import { StatusBar } from 'react-native-web';
 import { Login } from './Login';
 import { Home } from './Home';
 import { NavigationContainer } from '@react-navigation/native';
@@ -10,7 +9,7 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
+      <Stack.Navigator initialRouteName="Login">
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Home" component={Home} />
       </Stack.Navigator>

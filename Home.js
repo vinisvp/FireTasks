@@ -6,9 +6,17 @@ export function Home() {
   const Drawer = createDrawerNavigator();
 
   return (
-    <Drawer.Navigator initialRouteName="Task">
-      <Drawer.Screen name='Tasks' component={Tasks} />
-      <Drawer.Screen name='Task' component={Task} />
+    <Drawer.Navigator initialRouteName="Tasks">
+      <Drawer.Screen name='Tasks' component={Tasks}
+        options={{
+          title: "Tarefas"
+        }}
+      />
+      <Drawer.Screen name='Task' component={Task}
+        options={{
+          title: "Criar Tarefa"
+        }}
+      />
     </Drawer.Navigator>
   );
 }
