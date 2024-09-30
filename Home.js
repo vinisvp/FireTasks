@@ -2,8 +2,12 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Tasks } from "./Tasks";
 import { Task } from "./Task";
 
-export function Home() {
+export function Home({ route, navigation }) {
   const Drawer = createDrawerNavigator();
+  const { user } = route.params;
+  navigation.setOptions({
+    title: `Olá ${user.email}`
+  });
 
   return (
     <Drawer.Navigator initialRouteName="Tasks">
