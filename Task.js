@@ -3,11 +3,22 @@ import { Picker } from "@react-native-picker/picker";
 import { useState } from "react";
 import { TouchableOpacity } from "react-native";
 import { db } from "./firestore";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, getDoc, updateDoc } from "firebase/firestore";
 
-export function Task({ navigation }) {
+export function Task({ route, navigation }) {
+    const { task } = route.params;
+
+    const edit = false;
     const [description, setDescription] = useState("");
-    const date = new Date();
+    const date = null;
+    if (task) {
+        edit = true;
+        setDescription(task.description);
+        date = task.date;
+        console.log(date);
+    } else {
+        date = new Date();
+    }
     const [month, setMonth] = useState(date.getMonth());
     const [day, setDay] = useState(date.getDate());
     const [year, setYear] = useState(date.getFullYear());
@@ -18,11 +29,24 @@ export function Task({ navigation }) {
         return newDate;
     }
 
-    function create(db, description, date){
+    function create(db, description, date) {
         addDoc(collection(db, "tasks"), {
             description: description,
             done: false,
             date: date
+        }).then(() => {
+            navigation.navigate('Tasks');
+        }).catch((error) => {
+            console.log(error.code);
+            console.log(error.message);
+        })
+    }
+
+    function update(db, task) {
+        updateDoc(getDoc(db, "tasks", task.id), {
+            description: task.description,
+            done: task.done,
+            date: task.date
         }).then(() => {
             navigation.navigate('Tasks');
         }).catch((error) => {
@@ -79,7 +103,13 @@ export function Task({ navigation }) {
             <TouchableOpacity
                 style={styles.button}
                 onPress={() => {
-                    create(db, description, defineDate(year, month, day));
+                    if (!edit) {
+                        create(db, description, defineDate(year, month, day));
+                    } else {
+                        task.description = description;
+                        task.date = defineDate(year, month, day);
+                        update(db, task)
+                    }
                 }}
             >
                 <Text style={{ color: "#fff" }}>Criar</Text>

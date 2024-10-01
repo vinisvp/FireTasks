@@ -19,6 +19,13 @@ export function Tasks({ navigation }) {
     navigation.navigate('Task');
   }
 
+  function editTask(task){
+    console.log(task);
+    navigation.navigate('Task', {
+      task
+    });
+  }
+
   return (
     <View style={styles.container}>
       <ScrollView style={{ padding: 10 }}>
@@ -36,7 +43,7 @@ export function Tasks({ navigation }) {
                   <Text style={{ marginLeft: 8 }}>{item.description}</Text>
                 </View>
                 <View style={{ flexDirection: 'row', gap: 5, justifyContent: 'flex-end' }}>
-                  <TouchableOpacity>
+                  <TouchableOpacity onPress={() => editTask(item)}>
                     <Image
                       source={{ uri: 'https://cdn0.iconfinder.com/data/icons/multimedia-solid-30px/30/edit_modify_write_pen-512.png' }}
                       style={{ width: 18, height: 18 }}
