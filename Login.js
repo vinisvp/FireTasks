@@ -15,12 +15,10 @@ export function Login({ navigation }) {
   const enter = () => {
     signInWithEmailAndPassword(auth, email, pwd)
       .then((userCredencial) => {
+        setEmail("");
+        setPwd("");
         const user = userCredencial.user;
-        navigation.navigate('Home',
-          {
-            user
-          }
-        );
+        navigation.navigate('Home',{user});
       })
       .catch((error) => {
         console.log(error.code);
