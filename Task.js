@@ -2,9 +2,12 @@ import { StyleSheet, Text, View, TextInput } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { useState } from "react";
 import { TouchableOpacity } from "react-native";
+import { db } from "./firestore";
+import { addDoc, collection } from "firebase/firestore";
 
 export function Task({ navigation }) {
-    const [date, setDate] = useState(new Date());
+    const [description, setDescription] = useState("");
+    const date = new Date();
     const [month, setMonth] = useState(date.getMonth());
     const [day, setDay] = useState(date.getDate());
     const [year, setYear] = useState(date.getFullYear());
@@ -12,18 +15,28 @@ export function Task({ navigation }) {
     function defineDate(year, month, day) {
         month = parseInt(month);
         const newDate = new Date(year, month, day);
-        setDate(newDate);
-        console.log(`${year}-${month + 1}-${day}`)
+        return newDate;
     }
 
-    function create() {
-        navigation.navigate('Tasks');
+    function create(db, description, date){
+        addDoc(collection(db, "tasks"), {
+            description: description,
+            done: false,
+            date: date
+        }).then(() => {
+            navigation.navigate('Tasks');
+        }).catch((error) => {
+            console.log(error.code);
+            console.log(error.message);
+        })
     }
 
     return (
         <View style={styles.container}>
             <Text style={{ textAlign: "center", marginBottom: 3 }}>Descrição da Tarefa</Text>
             <TextInput style={styles.input}
+                value={description}
+                onChangeText={text => setDescription(text)}
                 placeholder="Descreva essa tarefa"
                 multiline
             />
@@ -66,8 +79,7 @@ export function Task({ navigation }) {
             <TouchableOpacity
                 style={styles.button}
                 onPress={() => {
-                    defineDate(year, month, day);
-                    create();
+                    create(db, description, defineDate(year, month, day));
                 }}
             >
                 <Text style={{ color: "#fff" }}>Criar</Text>
