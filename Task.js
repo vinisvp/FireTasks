@@ -1,27 +1,50 @@
 import { StyleSheet, Text, View, TextInput } from "react-native";
 import { Picker } from "@react-native-picker/picker";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TouchableOpacity } from "react-native";
 import { db } from "./firestore";
-import { addDoc, collection, getDoc, updateDoc } from "firebase/firestore";
+import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
 
 export function Task({ route, navigation }) {
-    const { task } = route.params;
-
-    const edit = false;
-    const [description, setDescription] = useState("");
-    const date = null;
-    if (task) {
-        edit = true;
-        setDescription(task.description);
-        date = task.date;
-        console.log(date);
-    } else {
-        date = new Date();
+    var task = null
+    
+    if(route.params){
+        task = route.params
+        task = task.task;
     }
-    const [month, setMonth] = useState(date.getMonth());
-    const [day, setDay] = useState(date.getDate());
-    const [year, setYear] = useState(date.getFullYear());
+    
+    console.log(task)
+
+    var [edit, setEdit] = useState(false);
+    var [description, setDescription] = useState("");
+    var date = null;
+
+    var [month, setMonth] = useState();
+    var [day, setDay] = useState();
+    var [year, setYear] = useState();
+
+    useEffect(() => {
+        if (task) {
+            console.log("Editando...")
+            setEdit(true);
+            setDescription(task.description);
+            date = new Date(task.date.seconds * 1000);
+            console.log(date);
+        } else {
+            console.log("Criando...")
+            setEdit(false);
+            date = new Date();
+        }
+        
+        console.log(edit)
+        console.log(task)
+
+        setMonth(date.getMonth())
+        setDay(date.getDate())
+        setYear(date.getFullYear())
+    }, [task])
+
+    console.log(edit)
 
     function defineDate(year, month, day) {
         month = parseInt(month);
@@ -29,12 +52,25 @@ export function Task({ route, navigation }) {
         return newDate;
     }
 
+    function clear(){
+        task = null;
+        setEdit(false);
+        setDescription("");
+
+        date = null;
+        setMonth();
+        setDay();
+        setYear();
+    }
+
     function create(db, description, date) {
+        console.log("Criou")
         addDoc(collection(db, "tasks"), {
             description: description,
             done: false,
             date: date
         }).then(() => {
+            clear();
             navigation.navigate('Tasks');
         }).catch((error) => {
             console.log(error.code);
@@ -43,11 +79,13 @@ export function Task({ route, navigation }) {
     }
 
     function update(db, task) {
-        updateDoc(getDoc(db, "tasks", task.id), {
+        console.log("Editou")
+        updateDoc(doc(db, "tasks", task.id), {
             description: task.description,
             done: task.done,
             date: task.date
         }).then(() => {
+            clear();
             navigation.navigate('Tasks');
         }).catch((error) => {
             console.log(error.code);
@@ -103,7 +141,8 @@ export function Task({ route, navigation }) {
             <TouchableOpacity
                 style={styles.button}
                 onPress={() => {
-                    if (!edit) {
+                    console.log(edit)
+                    if (edit == false) {
                         create(db, description, defineDate(year, month, day));
                     } else {
                         task.description = description;
@@ -112,11 +151,11 @@ export function Task({ route, navigation }) {
                     }
                 }}
             >
-                <Text style={{ color: "#fff" }}>Criar</Text>
+                <Text style={{ color: "#fff" }}>{edit ? "Editar" : "Criar "}</Text>
             </TouchableOpacity>
             <TouchableOpacity
                 style={styles.altButton}
-                onPress={() => navigation.navigate('Tasks')}
+                onPress={() => {clear(); navigation.navigate('Tasks')}}
             >
                 <Text style={{ color: "#20a0e6" }}>Cancelar</Text>
             </TouchableOpacity>

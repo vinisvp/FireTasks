@@ -20,7 +20,7 @@ export function Tasks({ navigation }) {
   }
 
   function editTask(task){
-    console.log(task);
+    //console.log(task);
     navigation.navigate('Task', {
       task
     });
