@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, Image } from "react-native";
 import { CheckBox, FlatList, ScrollView, TouchableOpacity } from "react-native-web";
 import { db } from "./firestore";
 import { useEffect } from "react";
-import { getDocs, collection, doc, deleteDoc } from "firebase/firestore";
+import { doc, getDocs, deleteDoc, updateDoc, collection } from "firebase/firestore";
 import { useState } from "react";
 
 export function Tasks({ navigation }) {
@@ -22,18 +22,29 @@ export function Tasks({ navigation }) {
     navigation.navigate('Task');
   }
 
+  function setDone(task) {
+    updateDoc(doc(db, "tasks", task.id), {
+      description: task.description,
+      date: task.date,
+      done: !task.done
+    }).catch((error) => {
+      console.log(error.code);
+      console.log(error.message);
+    })
+  }
+
   function editTask(task) {
     navigation.navigate('Task', {
       task
     });
   }
 
-  function deleteTask(task){
+  function deleteTask(task) {
     deleteDoc(doc(db, "tasks", task.id)) //doc get the reference
-    .catch(error => {
-      console.log(error.code);
-      console.log(error.message);
-    });
+      .catch(error => {
+        console.log(error.code);
+        console.log(error.message);
+      });
   }
 
   return (
@@ -48,7 +59,7 @@ export function Tasks({ navigation }) {
                 <View style={{ flexDirection: 'row' }}>
                   <CheckBox
                     value={item.done}
-                    onValueChange={() => item.done = !item.done}
+                    onValueChange={() => setDone(item)}
                   />
                   <Text style={{ marginLeft: 8 }}>{item.description}</Text>
                 </View>

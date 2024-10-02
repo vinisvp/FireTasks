@@ -4,10 +4,10 @@ import { Task } from "./Task";
 
 export function Home({ route, navigation }) {
   const Drawer = createDrawerNavigator();
-  //const { user } = route.params;
-  /*navigation.setOptions({
+  const { user } = route.params;
+  navigation.setOptions({
     title: `Olá ${user.email}`
-  });*/
+  });
 
   return (
     <Drawer.Navigator initialRouteName="Tasks">

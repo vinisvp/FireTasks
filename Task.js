@@ -12,8 +12,6 @@ export function Task({ route, navigation }) {
         task = route.params
         task = task.task;
     }
-    
-    //console.log(task)
 
     var [edit, setEdit] = useState(false);
     var [description, setDescription] = useState("");
@@ -28,7 +26,6 @@ export function Task({ route, navigation }) {
             setEdit(true);
             setDescription(task.description);
             date = new Date(task.date.seconds * 1000);
-            //console.log(date);
         } else {
             setEdit(false);
             date = new Date();
@@ -39,12 +36,9 @@ export function Task({ route, navigation }) {
         setYear(date.getFullYear())
     }, [task])
 
-    //console.log(`${day}-${month}-${year}`)
-
     function defineDate(year, month, day) {
         month = parseInt(month);
         const newDate = new Date(year, month, day);
-        //console.log(newDate)
         return newDate;
     }
 
@@ -135,7 +129,6 @@ export function Task({ route, navigation }) {
             <TouchableOpacity
                 style={styles.button}
                 onPress={() => {
-                    //console.log(edit)
                     if (edit == false) {
                         create(db, description, defineDate(year, month, day));
                     } else {
