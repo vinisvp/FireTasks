@@ -7,8 +7,8 @@ import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
 
 export function Task({ route, navigation }) {
     var task = null
-    
-    if(route.params){
+
+    if (route.params) {
         task = route.params
         task = task.task;
     }
@@ -36,13 +36,17 @@ export function Task({ route, navigation }) {
         setYear(date.getFullYear())
     }, [task])
 
+    navigation.setOptions({
+        title: edit ? "Editar Tarefa" : "Criar Tarefa"
+    });
+
     function defineDate(year, month, day) {
         month = parseInt(month);
         const newDate = new Date(year, month, day);
         return newDate;
     }
 
-    function clear(){
+    function clear() {
         task = null;
         setEdit(false);
         setDescription("");
@@ -142,7 +146,7 @@ export function Task({ route, navigation }) {
             </TouchableOpacity>
             <TouchableOpacity
                 style={styles.altButton}
-                onPress={() => {clear(); navigation.navigate('Tasks')}}
+                onPress={() => { clear(); navigation.navigate('Tasks') }}
             >
                 <Text style={{ color: "#20a0e6" }}>Cancelar</Text>
             </TouchableOpacity>
