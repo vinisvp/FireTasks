@@ -1,26 +1,28 @@
 import { StyleSheet, Text, View, Image } from "react-native";
 import { CheckBox, FlatList, ScrollView, TouchableOpacity } from "react-native-web";
 import { db } from "./firestore";
+import { useEffect } from "react";
 import { getDocs, collection } from "firebase/firestore";
 import { useState } from "react";
 
 export function Tasks({ navigation }) {
   const [DATA, setData] = useState();
 
-  getDocs(collection(db, "tasks")).then(docSnap => {
-    let tasks = [];
-    docSnap.forEach((doc) => {
-      tasks.push({ ...doc.data(), id: doc.id })
-    });
-    setData(tasks);
-  })
+  useEffect(() => {
+    getDocs(collection(db, "tasks")).then(docSnap => {
+      let tasks = [];
+      docSnap.forEach((doc) => {
+        tasks.push({ ...doc.data(), id: doc.id })
+      });
+      setData(tasks);
+    })
+  }, [DATA])
 
   const newTask = () => {
     navigation.navigate('Task');
   }
 
-  function editTask(task){
-    //console.log(task);
+  function editTask(task) {
     navigation.navigate('Task', {
       task
     });
