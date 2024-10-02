@@ -25,30 +25,24 @@ export function Task({ route, navigation }) {
 
     useEffect(() => {
         if (task) {
-            console.log("Editando...")
             setEdit(true);
             setDescription(task.description);
             date = new Date(task.date.seconds * 1000);
             console.log(date);
         } else {
-            console.log("Criando...")
             setEdit(false);
             date = new Date();
         }
-        
-        console.log(edit)
-        console.log(task)
 
         setMonth(date.getMonth())
         setDay(date.getDate())
         setYear(date.getFullYear())
     }, [task])
 
-    console.log(edit)
-
     function defineDate(year, month, day) {
         month = parseInt(month);
         const newDate = new Date(year, month, day);
+        console.log(newDate)
         return newDate;
     }
 
@@ -64,7 +58,6 @@ export function Task({ route, navigation }) {
     }
 
     function create(db, description, date) {
-        console.log("Criou")
         addDoc(collection(db, "tasks"), {
             description: description,
             done: false,
@@ -79,7 +72,6 @@ export function Task({ route, navigation }) {
     }
 
     function update(db, task) {
-        console.log("Editou")
         updateDoc(doc(db, "tasks", task.id), {
             description: task.description,
             done: task.done,
