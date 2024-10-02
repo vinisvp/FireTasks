@@ -54,6 +54,12 @@ export function Tasks({ navigation }) {
           data={DATA}
           keyExtractor={item => item.id}
           renderItem={({ item }) => {
+            let auxText = item.description;
+            if (item.description.length > 25){
+              auxText = auxText.substring(0, 25);
+              auxText = auxText.concat('...');
+            }
+            
             return (
               <View style={styles.card}>
                 <View style={{ flexDirection: 'row' }}>
@@ -61,7 +67,7 @@ export function Tasks({ navigation }) {
                     value={item.done}
                     onValueChange={() => setDone(item)}
                   />
-                  <Text style={{ marginLeft: 8 }}>{item.description}</Text>
+                  <Text style={{ marginLeft: 8 }}>{auxText}</Text>
                 </View>
                 <View style={{ flexDirection: 'row', gap: 5, justifyContent: 'flex-end' }}>
                   <TouchableOpacity onPress={() => editTask(item)}>
