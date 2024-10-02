@@ -49,7 +49,7 @@ export function Tasks({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <ScrollView style={{ padding: 10 }}>
+      <ScrollView style={{ padding: 10, marginBottom: 15 }} scrollEnabled={true}>
         <FlatList
           data={DATA}
           keyExtractor={item => item.id}
@@ -93,6 +93,7 @@ export function Tasks({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     margin: 35
   },
   card: {

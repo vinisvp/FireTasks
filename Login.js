@@ -43,6 +43,7 @@ export function Login({ navigation }) {
         <TextInput style={styles.input}
                    placeholder="Senha"
                    value={pwd}
+                   secureTextEntry={true}
                    onChangeText={text => setPwd(text)}
         />
       </View>
