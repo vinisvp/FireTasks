@@ -13,7 +13,7 @@ export function Task({ route, navigation }) {
         task = task.task;
     }
     
-    console.log(task)
+    //console.log(task)
 
     var [edit, setEdit] = useState(false);
     var [description, setDescription] = useState("");
@@ -28,7 +28,7 @@ export function Task({ route, navigation }) {
             setEdit(true);
             setDescription(task.description);
             date = new Date(task.date.seconds * 1000);
-            console.log(date);
+            //console.log(date);
         } else {
             setEdit(false);
             date = new Date();
@@ -39,10 +39,12 @@ export function Task({ route, navigation }) {
         setYear(date.getFullYear())
     }, [task])
 
+    //console.log(`${day}-${month}-${year}`)
+
     function defineDate(year, month, day) {
         month = parseInt(month);
         const newDate = new Date(year, month, day);
-        console.log(newDate)
+        //console.log(newDate)
         return newDate;
     }
 
@@ -51,10 +53,10 @@ export function Task({ route, navigation }) {
         setEdit(false);
         setDescription("");
 
-        date = null;
-        setMonth();
-        setDay();
-        setYear();
+        date = new Date();
+        setMonth(date.getMonth());
+        setDay(date.getDate());
+        setYear(date.getFullYear());
     }
 
     function create(db, description, date) {
@@ -133,7 +135,7 @@ export function Task({ route, navigation }) {
             <TouchableOpacity
                 style={styles.button}
                 onPress={() => {
-                    console.log(edit)
+                    //console.log(edit)
                     if (edit == false) {
                         create(db, description, defineDate(year, month, day));
                     } else {

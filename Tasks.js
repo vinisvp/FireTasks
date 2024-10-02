@@ -2,14 +2,14 @@ import { StyleSheet, Text, View, Image } from "react-native";
 import { CheckBox, FlatList, ScrollView, TouchableOpacity } from "react-native-web";
 import { db } from "./firestore";
 import { useEffect } from "react";
-import { getDocs, collection } from "firebase/firestore";
+import { getDocs, collection, doc, deleteDoc } from "firebase/firestore";
 import { useState } from "react";
 
 export function Tasks({ navigation }) {
   const [DATA, setData] = useState();
 
   useEffect(() => {
-    getDocs(collection(db, "tasks")).then(docSnap => {
+    getDocs(collection(db, "tasks")).then(docSnap => { //getDocs and getDoc get the object doc
       let tasks = [];
       docSnap.forEach((doc) => {
         tasks.push({ ...doc.data(), id: doc.id })
@@ -25,6 +25,14 @@ export function Tasks({ navigation }) {
   function editTask(task) {
     navigation.navigate('Task', {
       task
+    });
+  }
+
+  function deleteTask(task){
+    deleteDoc(doc(db, "tasks", task.id)) //doc get the reference
+    .catch(error => {
+      console.log(error.code);
+      console.log(error.message);
     });
   }
 
@@ -51,7 +59,7 @@ export function Tasks({ navigation }) {
                       style={{ width: 18, height: 18 }}
                     />
                   </TouchableOpacity>
-                  <TouchableOpacity>
+                  <TouchableOpacity onPress={() => deleteTask(item)}>
                     <Image
                       source={{ uri: 'https://cdn-icons-png.flaticon.com/512/6861/6861362.png' }}
                       style={{ width: 18, height: 18 }}
